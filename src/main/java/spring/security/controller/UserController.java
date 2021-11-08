@@ -1,10 +1,7 @@
 package spring.security.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import spring.security.model.User;
 import spring.security.repository.UserRepository;
 
@@ -27,5 +24,15 @@ public class UserController {
     public User getUser(@PathVariable("id") Long id){
         User user = userRepository.findById(id).get();
         return user;
+    }
+
+    @PostMapping(value = "/add-new")
+    public User registerNewUser(@RequestBody User user){
+        return userRepository.save(user);
+    }
+
+    @DeleteMapping(value = "/delete-user/{id}")
+    public void deleteUser(@PathVariable("id") Long id){
+        userRepository.deleteById(id);
     }
 }
