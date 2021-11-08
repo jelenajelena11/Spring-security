@@ -1,6 +1,7 @@
 package spring.security.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import spring.security.model.User;
 import spring.security.repository.UserRepository;
@@ -15,6 +16,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping(value = "/all-users")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public List<User> getAllUsers(){
         List<User> users = userRepository.findAll();
         return users;
@@ -28,6 +30,7 @@ public class UserController {
 
     @PostMapping(value = "/add-new")
     public User registerNewUser(@RequestBody User user){
+        System.out.println(user.getName());
         return userRepository.save(user);
     }
 
